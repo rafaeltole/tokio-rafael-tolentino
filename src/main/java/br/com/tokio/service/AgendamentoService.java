@@ -29,9 +29,7 @@ public class AgendamentoService {
         }
 
         BigDecimal valorTaxa = taxa.calcula(valor);
-        final Agendamento agendamento = new Agendamento(origem, destino, valor, valorTaxa, dataParaTranferencia);
-
-        agendamentoRepository.save(agendamento);
+        agendamentoRepository.save(new Agendamento(origem, destino, valor, valorTaxa, dataParaTranferencia));
     }
 
 }
