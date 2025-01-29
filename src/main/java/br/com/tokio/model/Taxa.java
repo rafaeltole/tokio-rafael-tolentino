@@ -5,8 +5,12 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import static java.math.RoundingMode.HALF_EVEN;
+
 @Entity
 public class Taxa {
+
+    private static final BigDecimal CEM = new BigDecimal("100");
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,6 +53,15 @@ public class Taxa {
 
     public Integer getDiaAte() {
         return diaAte;
+    }
+
+    private BigDecimal obterPorcentagemCalculada() {
+        return porcentagem.divide(CEM).setScale(4, HALF_EVEN);
+    }
+
+    public BigDecimal calcula(final BigDecimal valorTransferencia) {
+        BigDecimal valorTaxa = valorTransferencia.multiply(obterPorcentagemCalculada()).setScale(2, HALF_EVEN);
+        return valorTaxa.add(valor);
     }
 
     @Override

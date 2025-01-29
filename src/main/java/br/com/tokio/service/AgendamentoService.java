@@ -1,17 +1,11 @@
 package br.com.tokio.service;
 
-import br.com.tokio.model.Agendamento;
-import br.com.tokio.model.AgendamentoRepository;
-import br.com.tokio.model.Conta;
-import br.com.tokio.model.TaxaRepository;
+import br.com.tokio.model.*;
+import br.com.tokio.utils.DataUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-
-import static java.math.BigDecimal.ZERO;
 
 @Service
 public class AgendamentoService {
@@ -25,8 +19,13 @@ public class AgendamentoService {
         this.taxaRepository = taxaRepository;
     }
 
-    public void agenda(final Conta origem, final Conta destino, final BigDecimal valor, final String dataParaTranferencia) {
-        final Agendamento agendamento = new Agendamento(origem, destino, valor, ZERO, LocalDate.now());
+    public void agenda(final Conta origem, final Conta destino, final BigDecimal valor, final LocalDate dataParaTranferencia) {
+        long qtdDiasTransferencia = DataUtils.calculaIntervadoEmDias(LocalDate.now(), dataParaTranferencia);
+
+        final Taxa taxa = taxaRepository.obterTaxaPorDiasTranferencia(qtdDiasTransferencia);
+        BigDecimal valorTaxa = taxa.calcula(valor);
+
+        final Agendamento agendamento = new Agendamento(origem, destino, valor, valorTaxa, dataParaTranferencia);
 
         agendamentoRepository.save(agendamento);
     }

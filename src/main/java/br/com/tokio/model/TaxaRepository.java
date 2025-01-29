@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 public interface TaxaRepository extends CrudRepository<Taxa, Long> {
 
     @Query("SELECT taxa FROM Taxa taxa WHERE taxa.diaAte >= :qtdDiasTransferencia AND taxa.diaDe <= :qtdDiasTransferencia")
-    Taxa obterTaxaPorDiasTranferencia(@Param("qtdDiasTransferencia") Integer qtdDiasTransferencia);
+    Taxa obterTaxaPorDiasTranferencia(@Param("qtdDiasTransferencia") long qtdDiasTransferencia);
 
 }

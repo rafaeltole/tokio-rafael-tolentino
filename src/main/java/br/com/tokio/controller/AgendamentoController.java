@@ -5,6 +5,7 @@ import br.com.tokio.service.AgendamentoService;
 import org.springframework.stereotype.Controller;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Controller
 public class AgendamentoController {
@@ -17,7 +18,7 @@ public class AgendamentoController {
 
     public void agenda(final Conta origem, final Conta destino, final BigDecimal valor, String dataParaTranferencia) {
         //TODO Implementar
-        service.agenda(origem, destino, valor, dataParaTranferencia);
+        service.agenda(origem, destino, valor, LocalDate.now());
 
     }
 
