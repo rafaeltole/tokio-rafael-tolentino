@@ -1,7 +1,6 @@
 package br.com.tokio.model;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 

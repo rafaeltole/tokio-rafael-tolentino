@@ -1,11 +1,10 @@
 package br.com.tokio.model;
 
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Objects;
 
 @Entity
@@ -15,11 +14,11 @@ public class Agendamento {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "conta_origem_id")
     private final Conta origem;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "conta_destino_id")
     private final Conta destino;
 
@@ -27,26 +26,23 @@ public class Agendamento {
     private final BigDecimal valor;
 
     @Column(scale = 2, nullable = false)
-    private final BigDecimal taxa;
+    private BigDecimal taxa;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     private final LocalDateTime dataAgendamento;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
     private final LocalDate dataParaTransferencia;
 
     Agendamento() {
         this(null, null, null, null, null);
     }
 
-    public Agendamento(final Conta origem, final Conta destino, final BigDecimal valor, final BigDecimal taxa, final LocalDate dataParaTransferencia) {
+    public Agendamento(final Conta origem, final Conta destino, final BigDecimal valor, LocalDateTime dataAgendamento, final LocalDate dataParaTransferencia) {
         this.origem = origem;
         this.destino = destino;
         this.valor = valor;
-        this.taxa = taxa;
-        this.dataAgendamento = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
+        this.dataAgendamento = dataAgendamento;
         this.dataParaTransferencia = dataParaTransferencia;
     }
 
@@ -68,6 +64,10 @@ public class Agendamento {
 
     public BigDecimal getTaxa() {
         return taxa;
+    }
+
+    public void atualizaValorTaxa(final BigDecimal taxa) {
+        this.taxa = taxa;
     }
 
     public LocalDateTime getDataAgendamento() {

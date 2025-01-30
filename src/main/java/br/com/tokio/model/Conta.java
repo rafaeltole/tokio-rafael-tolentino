@@ -1,7 +1,6 @@
 package br.com.tokio.model;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +23,10 @@ public class Conta {
 
     public Integer getNumero() {
         return numero;
+    }
+
+    String obterNumeroComoString() {
+        return numero == null ? "" : numero.toString();
     }
 
     @Override

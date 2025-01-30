@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class AgendamentoService {
@@ -20,16 +21,23 @@ public class AgendamentoService {
         this.taxaRepository = taxaRepository;
     }
 
-    public void agenda(final Conta origem, final Conta destino, final BigDecimal valor, final LocalDate dataParaTranferencia) throws TaxaNaoEncontradaException {
-        long qtdDiasTransferencia = DataUtils.calculaIntervadoEmDias(LocalDate.now(), dataParaTranferencia);
+    public void agenda(final Agendamento agendamento) throws TaxaNaoEncontradaException {
+        int qtdDiasTransferencia = DataUtils.calculaIntervadoEmDias(LocalDate.now(), agendamento.getDataParaTransferencia());
 
         final Taxa taxa = taxaRepository.obterTaxaPorDiasTranferencia(qtdDiasTransferencia);
         if (taxa == null) {
             throw new TaxaNaoEncontradaException(qtdDiasTransferencia);
         }
 
-        BigDecimal valorTaxa = taxa.calcula(valor);
-        agendamentoRepository.save(new Agendamento(origem, destino, valor, valorTaxa, dataParaTranferencia));
+        BigDecimal valorTaxa = taxa.calcula(agendamento.getValor());
+        agendamento.atualizaValorTaxa(valorTaxa);
+
+        agendamentoRepository.save(agendamento);
     }
+
+    public List<Agendamento> lista() {
+        return (List<Agendamento>) agendamentoRepository.findAll();
+    }
+
 
 }

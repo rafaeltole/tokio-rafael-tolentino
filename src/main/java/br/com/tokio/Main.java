@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.math.BigDecimal;
 
@@ -20,6 +22,18 @@ public class Main {
 
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfig() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(final CorsRegistry registry) {
+                registry //
+                        .addMapping("/**") //
+                        .allowedMethods("GET", "POST").allowedOrigins("http://localhost:4200");
+            }
+        };
     }
 
     @Bean
