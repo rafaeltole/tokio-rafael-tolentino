@@ -2,16 +2,13 @@ package br.com.tokio.controller;
 
 import br.com.tokio.exceptions.TaxaNaoEncontradaException;
 import br.com.tokio.model.Agendamento;
-import br.com.tokio.model.AgendamentoDTO;
 import br.com.tokio.model.AgendamentoConverter;
-import br.com.tokio.model.Conta;
+import br.com.tokio.model.AgendamentoDTO;
+import br.com.tokio.model.MensagemRetornoDTO;
 import br.com.tokio.service.AgendamentoService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Collections;
+import javax.validation.Valid;
 import java.util.List;
 
 import static br.com.tokio.model.AgendamentoConverter.converteParaDTO;
@@ -27,10 +24,10 @@ public class AgendamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<String> agenda(@RequestBody AgendamentoDTO agendamentoDTO) throws TaxaNaoEncontradaException {
+    public MensagemRetornoDTO agenda(@Valid @RequestBody AgendamentoDTO agendamentoDTO) throws TaxaNaoEncontradaException {
         Agendamento agendamento = AgendamentoConverter.converteParaObjeto(agendamentoDTO);
         service.agenda(agendamento);
-        return ResponseEntity.ok().build();
+        return MensagemRetornoDTO.buildComSucesso("Agendamento realizado com sucesso");
     }
 
     @GetMapping

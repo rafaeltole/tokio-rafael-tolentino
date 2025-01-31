@@ -29,13 +29,22 @@ export class AgendamentoFormComponent {
 
   readonly minDate = new Date();
 
+  retorno: any = {};
+
   constructor(private http: HttpClient) {}
 
   onSubmit(): void {
-    this.http.post<Agendamento>(
-      'http://localhost:8080/agendamento',
-      this.agendamentoForm.value
-      ).subscribe(data => this.output.emit(data));
-    }
+    this.http.post('http://localhost:8080/tokio-rafael-tolentino/agendamento', this.agendamentoForm.value).subscribe({
+      next: data => {
+          this.retorno = {mensagem: 'Agendamento cadastrado com sucesso'};
+          this.agendamentoForm.reset();
+          },
+      error: data => {
+        this.retorno = {mensagem: data.error.erro};
+        this.agendamentoForm.reset();
+        }
+      });
+
+  }
 
 }

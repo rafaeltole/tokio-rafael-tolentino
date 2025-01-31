@@ -19,7 +19,7 @@ export class AgendamentoListComponent {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-      this.http.get<Agendamento[]>('http://localhost:8080/agendamento').subscribe((data: Agendamento[]) => {
+      this.http.get<Agendamento[]>('http://localhost:8080/tokio-rafael-tolentino/agendamento').subscribe((data: Agendamento[]) => {
         this.agendamentos = data;
       });
     }

@@ -1,22 +1,24 @@
 <form #agendamentoForm="ngForm" class="agendamento-form" (ngSubmit)="onSubmit()">
   <mat-form-field class="example-full-width">
     <mat-label>Conta Origem</mat-label>
-    <input name="contaOrigem" ngModel matInput #input maxlength="10">
+    <input name="contaOrigem" ngModel matInput #input maxlength="10" required>
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <mat-label>Conta Destino</mat-label>
-    <input name="contaDestino" ngModel matInput #input maxlength="10">
+    <input name="contaDestino" ngModel matInput #input maxlength="10" required>
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <mat-label>Valor</mat-label>
-    <input name="valor" ngModel  matInput >
+    <input name="valor" ngModel  matInput required>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Data para transferência</mat-label>
-    <input name="dataTransferencia" ngModel  matInput [min]="minDate" [matDatepicker]="picker">
+    <input name="dataTransferencia" ngModel  matInput [min]="minDate" [matDatepicker]="picker" required>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker disabled="false"></mat-datepicker>
   </mat-form-field>
-  <button type="submit" mat-raised-button>Agendar</button>
+  <button type="submit" mat-button>Agendar</button>
 </form>
-
+@if (retorno.mensagem) {
+  <p>{{ retorno.mensagem }}</p>
+}

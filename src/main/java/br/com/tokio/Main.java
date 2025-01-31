@@ -31,7 +31,7 @@ public class Main {
             public void addCorsMappings(final CorsRegistry registry) {
                 registry //
                         .addMapping("/**") //
-                        .allowedMethods("GET", "POST").allowedOrigins("http://localhost:4200");
+                        .allowedMethods("GET", "POST").allowedOrigins("*");
             }
         };
     }

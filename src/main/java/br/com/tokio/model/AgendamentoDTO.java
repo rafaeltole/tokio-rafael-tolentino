@@ -1,5 +1,7 @@
 package br.com.tokio.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,16 +11,23 @@ import static br.com.tokio.utils.ConverterUtils.valorEmReais;
 
 public class AgendamentoDTO {
 
+    @Min(value = 1, message = "Conta de Origem deve ser maior do que 0")
+    @NotBlank(message = "Conta de Origem deve ser informada")
     private String contaOrigem;
 
+    @Min(value = 1, message = "Conta de Destino deve ser maior do que 0")
+    @NotBlank(message = "Conta de Destino deve ser informada")
     private String contaDestino;
 
     private String taxa;
 
+    @Min(value = 1, message = "Valor deve ser maior do que 0")
+    @NotBlank(message = "Valor deve ser informado")
     private String valor;
 
     private String dataAgendamento;
 
+    @NotBlank(message = "Data para transferência deve ser informada")
     private String dataTransferencia;
 
     public String getContaOrigem() {
